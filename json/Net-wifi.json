@@ -1,0 +1,73 @@
+{
+  "dns": {
+    "rules": [],
+    "servers": [
+      {
+        "address": "tls://1.1.1.1",
+        "tag": "dns-remote",
+        "detour": "proxy",
+        "strategy": "ipv4_only"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "interface_name": "ipv4-tun",
+      "inet4_address": "172.19.0.1/28",
+      "mtu": 1500,
+      "stack": "gvisor",
+      "endpoint_independent_nat": true,
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true
+    }
+  ],
+  "outbounds": [
+  {
+      "packet_encoding": "",
+      "server": "165.22.116.128",
+      "server_port": 5052,
+      "tls": {
+        "alpn": [
+          "h2",
+          "http/1.1"
+        ],
+        "enabled": true,
+        "insecure": false,
+        "reality": {
+          "enabled": true,
+          "public_key": "PdD3yhCpkgsLXn8M7ZkHZKdnDOAT2GqeuHGWl3Pa-DQ",
+          "short_id": "a1dfa3b749acfe2d"
+        },
+        "server_name": "wikimedia.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      },
+      "transport": {
+        "service_name": "0429dcc3",
+        "type": "grpc"
+      },
+      "uuid": "aa0343bb-ebbf-4286-bd53-b108211a27f1",
+      "type": "vless",
+      "domain_strategy": "",
+      "tag": "proxy"
+    },
+    {
+      "tag": "dns-out",
+      "type": "dns"
+    }
+  ],
+  "route": {
+    "auto_detect_interface": true,
+    "final": "proxy",
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      }
+    ]
+  }
+}
